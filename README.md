@@ -220,6 +220,6 @@ Sleeping lightly ( ` Sleep.lightly() ` ) can also be used, which again typically
 
 ## Full Class Reference
 
-I recommend to just look at the examples which show you how to use all the features, but if you want the nitty-gritty then here is the [full class reference](https://rawgit.com/sleemanj/SimpleSleep/3cdb3a1/docs/html/class_simple_sleep.html)
+I recommend to just look at the examples which show you how to use all the features, but if you want the nitty-gritty then here is the [full class reference](https://rawgit.com/sleemanj/SimpleSleep/54bb03e/docs/html/class_simple_sleep.html)
 
 Thanks to the super kind folks of [RawGit](https://rawgit.com/) and [MaxCDN](http://www.maxcdn.com/)
