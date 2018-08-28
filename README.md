@@ -1,21 +1,25 @@
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
-
-- [SimpleSleep](#simplesleep)
-  - [Code Examples](#code-examples)
-    - [Deep and Dreamless Slumber (Forever Sleep)](#deep-and-dreamless-slumber-forever-sleep)
-    - [Very Low Power Blink](#very-low-power-blink)
-    - [Somewhat Low Power Blink](#somewhat-low-power-blink)
-    - [Slightly Low Power Blink but (Hardware) Serial Still Works and millis() is still accurate](#slightly-low-power-blink-but-hardware-serial-still-works-and-millis-is-still-accurate)
-    - [Calibrated Low Power Blink](#calibrated-low-power-blink)
-    - [Sleep deeply, but would wake up if there was an interrupt.](#sleep-deeply-but-would-wake-up-if-there-was-an-interrupt)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
 # SimpleSleep
 
 An Arduino library for simple means of putting your Arduino into sleep modes in order to save power when you are not doing much, supports a variety of common microcontrollers used with Arduino...
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents** 
+
+- [Supported Chips](#supported-chips)
+  - [ATMega Series](#atmega-series)
+  - [ATTiny Series](#attiny-series)
+- [Download, Install and Example](#download-install-and-example)
+- [Code Examples](#code-examples)
+  - [Deep and Dreamless Slumber (Forever Sleep)](#deep-and-dreamless-slumber-forever-sleep)
+  - [Very Low Power Blink](#very-low-power-blink)
+  - [Somewhat Low Power Blink](#somewhat-low-power-blink)
+  - [Slightly Low Power Blink but (Hardware) Serial Still Works and millis() is still accurate](#slightly-low-power-blink-but-hardware-serial-still-works-and-millis-is-still-accurate)
+  - [Calibrated Low Power Blink](#calibrated-low-power-blink)
+  - [Sleep deeply, but would wake up if there was an interrupt.](#sleep-deeply-but-would-wake-up-if-there-was-an-interrupt)
+- [Full Class Reference](#full-class-reference)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Supported Chips
 
@@ -220,6 +224,6 @@ Sleeping lightly ( ` Sleep.lightly() ` ) can also be used, which again typically
 
 ## Full Class Reference
 
-I recommend to just look at the examples which show you how to use all the features, but if you want the nitty-gritty then here is the [full class reference](https://rawgit.com/sleemanj/SimpleSleep/54bb03e/docs/html/class_simple_sleep.html)
+I recommend to just look at the examples which show you how to use all the features, but if you want the nitty-gritty then here is the [full class reference](https://rawgit.com/sleemanj/SimpleSleep/e5c029a/docs/html/class_simple_sleep.html)
 
 Thanks to the super kind folks of [RawGit](https://rawgit.com/) and [MaxCDN](http://www.maxcdn.com/)
