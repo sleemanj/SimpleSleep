@@ -42,7 +42,7 @@
        * For AVR, typically implemented as Power Down
        */
     
-      inline void deeply()                    { sleepDeeply(0);       }
+      inline void deeply()                    { sleepDeeply();       }
             
       /** Sleep deeply for a given time, allow external interrupts where possible (LEVEL only usually), bod off, adc off, timers generally off
        * 
@@ -59,7 +59,7 @@
        *  For AVR, typically either implemented as Extended Standby or ADC Noise Reduction with the ADC **OFF**.
        */
       
-      inline void lightly()                    { sleepLightly(0); }
+      inline void lightly()                    { sleepLightly(); }
       
       /** Sleep lightly for a given time, allow many interrupts, adc off, timers generally off
        * 
@@ -77,7 +77,7 @@
        *  For AVR, typically implemented as Idle
        */
       
-      inline void idle()                        { sleepIdle(0);       }
+      inline void idle()                        { sleepIdle();       }
       
       /** Wait patiently for a given time.
        * 
@@ -127,6 +127,11 @@
     protected:
     
       void sleepForever();
+      
+      void sleepDeeply();
+      void sleepLightly();
+      void sleepIdle();
+      
       void sleepDeeply(uint32_t sleepMs);
       void sleepLightly(uint32_t sleepMs);
       void sleepIdle(uint32_t sleepMs);

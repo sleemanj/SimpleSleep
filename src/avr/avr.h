@@ -132,15 +132,6 @@ inline uint16_t wdt_period_for(uint32_t *sleepMs)
   return WDTO_15MS;
 }
 
-/** This is defined in avr.cpp and used by the other AVR variants in their 
- *   `sleepFor()` method to determine if they need to start the WDT again 
- *   for the next round or if it is still watching.  This is initialized
- *   to 1, so as long as the WDT always resets it to 1 when triggered we 
- *   should know it's state.
- */
-
-extern volatile uint8_t wdt_triggered; 
-
 /** Macro for declaring backup variables for all the Power Reduction Register
  *   values, across (hopefully) all AVR variants using one macro call.
  * 
