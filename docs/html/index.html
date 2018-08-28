@@ -101,12 +101,185 @@ $(document).ready(function(){initNavTree('index.html','');});
 <div class="title">SimpleSleep Documentation</div>  </div>
 </div><!--header-->
 <div class="contents">
-</div><!-- contents -->
+<div class="textblock"><p>An Arduino library for simple means of putting your Arduino into sleep modes in order to save power when you are not doing much, supports a variety of common microcontrollers used with Arduino...</p>
+
+<h2>Supported Chips</h2>
+<h3>ATMega Series</h3>
+<ul>
+<li>ATMega328 Series</li>
+<li>ATMega168 Series</li>
+<li>ATMega48/88</li>
+<li>ATMega8</li>
+</ul>
+<h3>ATTiny Series</h3>
+<ul>
+<li>ATTiny25/45/85</li>
+<li>ATTiny24/44/84</li>
+<li>ATTiny13 ( recommended to use <a href="https://github.com/sleemanj/optiboot/blob/master/dists/README.md#attiny13">this core</a> )</li>
+</ul>
+<h2>Download, Install and Example</h2>
+<ul>
+<li>Download: <a href="http://sparks.gogo.co.nz/SimpleSleep.zip">http://sparks.gogo.co.nz/SimpleSleep.zip</a></li>
+<li>Open the Arduino IDE (this library was tested in 1.8.5, older versions may work)</li>
+<li>Select the menu item Sketch &gt; Import Library &gt; Add Library</li>
+<li>Choose to install the SimpleSleep.zip file you downloaded</li>
+<li>Now you can choose File &gt; Examples &gt; <a class="el" href="class_simple_sleep.html" title="Simple Sleep class for Arduino. ">SimpleSleep</a> &gt; HelloWorld</li>
+</ul>
+<p>Upload the example to your Arduino and stand back in awe of the results.</p>
+<h2>Code Examples</h2>
+<h3>Deep and Dreamless Slumber (Forever Sleep)</h3>
+<p>Sleeping forever is the simplest type of sleep and uses the least power, but only a RESET (or power-cycle of course) will wake you up. This can be very useful for "hit the button to do a thing" type devices, "hit the button play a sound", "hit the button light a light"... you just stick your button between RESET and Ground then in your code sleep forever when you have done the thing you want to do every time you hit the button... </p><pre class="fragment">#include &lt;SimpleSleep.h&gt;
+SimpleSleep Sleep; 
+
+void setup()
+{
+
+}
+
+void loop()
+{
+  /* Do something interesting here */
+
+  /* After you are done, sleep forever. */
+  Sleep.forever(); 
+}
+</pre><p>Note that sleep forever does not alter your pin states, a HIGH pin will still be HIGH, a LOW pin will still be LOW, pullups will still be on if so configured. So you should also disable those (set to INPUT is often best for minimising power consumption, but it depends on your devices).</p>
+<h3>Very Low Power Blink</h3>
+<pre class="fragment">#include &lt;SimpleSleep.h&gt;
+SimpleSleep Sleep; 
+
+const uint8_t ledPin = 13
+
+void setup()
+{
+  pinMode(ledPin, OUTPUT);
+}
+
+void loop()
+{
+  digitalWrite(ledPin, HIGH);
+  Sleep.deeplyFor(1000);
+
+  digitalWrite(ledPin, LOW);
+  Sleep.deeplyFor(1000);
+}
+</pre><h3>Somewhat Low Power Blink</h3>
+<p>The difference between sleeping deeply and sleeping lightly is chip dependant (and may be no practical difference at all), but generally <a class="el" href="class_simple_sleep.html" title="Simple Sleep class for Arduino. ">SimpleSleep</a> determines to leave Brown-Out-Detection ON in light sleeping, but turns it off in deep sleeping. </p><pre class="fragment">#include &lt;SimpleSleep.h&gt;
+SimpleSleep Sleep; 
+
+const uint8_t ledPin = 13
+
+void setup()
+{
+  pinMode(ledPin, OUTPUT);
+}
+
+void loop()
+{
+  digitalWrite(ledPin, HIGH);
+  Sleep.lightlyFor(1000);
+
+  digitalWrite(ledPin, LOW);
+  Sleep.lightlyFor(1000);
+}
+</pre><h3>Slightly Low Power Blink but (Hardware) Serial Still Works and millis() is still accurate</h3>
+<p>Using lightly/deeply generally is going to stop your serial communications and your millis count will not count during sleeping. The simplest way around this (there are others) is to use "idle" mode, which basically leaves everything running as much as possible, including serial and timers.</p>
+<pre class="fragment">#include &lt;SimpleSleep.h&gt;
+SimpleSleep Sleep; 
+
+const uint8_t ledPin = 13
+
+void setup()
+{
+  pinMode(ledPin, OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop()
+{
+  // Ask the user a question...
+  Serial.println(F("How many times to flash 0-99: "));
+
+  // Wait using low-power idle...
+  while(!Serial.available())
+  {
+    Sleep.idle();
+  }
+
+  // Read their answer...
+  char buf[4];
+  Serial.readBytesUntil('\n', buf, sizeof(buf)-1 );
+
+  // And do a thing...
+  for( int8_t x = atoi(buf); x &gt;= 0; x--)
+  {      
+    digitalWrite(ledPin, HIGH);
+    Sleep.deeplyFor(1000); // (we don't need to listen to serial here)
+
+    digitalWrite(ledPin, LOW);
+    Sleep.deeplyFor(1000); // (we don't need to listen to serial here)
+  }
+}
+</pre><h3>Calibrated Low Power Blink</h3>
+<p>Doing a calibration, which takes up to a few hundred milliseconds, can make for more accurate timing...</p>
+<pre class="fragment">#include &lt;SimpleSleep.h&gt;
+SimpleSleep     Sleep; 
+SimpleSleep_Cal SleepCal;
+
+const uint8_t ledPin = 13
+
+void setup()
+{
+  SleepCal = Sleep.getCalibration();
+  pinMode(ledPin, OUTPUT);
+}
+
+void loop()
+{
+  digitalWrite(ledPin, HIGH);
+  Sleep.deeplyFor(1000, SleepCal);
+
+  digitalWrite(ledPin, LOW);
+  Sleep.deeplyFor(1000, SleepCal);
+}
+</pre><h3>Sleep deeply, but would wake up if there was an interrupt.</h3>
+<p>Only LEVEL type interrupts generally work and they must be longer than usual so if you connect a button between the interruptPin and ground, hold it down</p>
+<pre class="fragment">#include &lt;SimpleSleep.h&gt;
+SimpleSleep Sleep;
+
+const uint8_t ledPin = 13
+const uint8_t interruptPin = 2;
+
+void setup()
+{
+  pinMode(ledPin, OUTPUT);
+  pinMode(interruptPin, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(interruptPin), interruptHandler, LOW);
+}
+
+void interruptHandler()
+{
+  // In this example, do nothing we will just wakeup and continue from where-ever
+  // we went to sleep.
+}
+
+void loop()
+{
+  // Blink once then sleep until an external interrupt happens
+  digitalWrite(ledPin, HIGH); delay(50); digitalWrite(ledPin, LOW);
+
+  Sleep.deeply();
+}
+</pre><p>Sleeping lightly ( <code>Sleep.lightly()</code> ) can also be used, which again typically leaves Brown-Out Detection on while deeply disables that.</p>
+<h2>Full Class Reference</h2>
+<p>I recommend to just look at the examples which show you how to use all the features, but if you want the nitty-gritty then here is the <a href="class_simple_sleep.html">full class reference</a></p>
+<p>Thanks to the super kind folks of <a href="https://rawgit.com/">RawGit</a> and <a href="http://www.maxcdn.com/">MaxCDN</a> </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Mon Aug 27 2018 14:04:48 for SimpleSleep by
+    <li class="footer">Generated on Tue Aug 28 2018 12:10:52 for SimpleSleep by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>
