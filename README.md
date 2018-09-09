@@ -219,7 +219,7 @@ so if you connect a button between the interruptPin and ground, hold it down
       Sleep.deeply();
     }
     
-Sleeping lightly ( ` Sleep.lightly() ` ) can also be used, which again typically leaves Brown-Out Detection on while deeply disables that.
+Sleeping lightly ( ` Sleep.lightly() ` ) can also be used (equates to Extended Stand-By where available)
 
 
 ## Full Class Reference
