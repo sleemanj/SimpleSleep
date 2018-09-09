@@ -7,7 +7,7 @@
 #include <SimpleSleep.h>
 SimpleSleep Sleep;
 
-const uint8_t ledPin = 13
+const uint8_t ledPin = 13;
 const uint8_t interruptPin = 2;
 
 void setup()
