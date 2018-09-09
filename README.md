@@ -95,7 +95,7 @@ Note that sleep forever does not alter your pin states, a HIGH pin will still be
         
 ### Somewhat Low Power Blink
 
-The difference between sleeping deeply and sleeping lightly is chip dependant (and may be no practical difference at all), but generally SimpleSleep determines to leave Brown-Out-Detection ON in light sleeping, but turns it off in deep sleeping.
+The difference between sleeping deeply and sleeping lightly is chip dependant.  In terms of AVR, light sleeping is generally implemented as Extended Stand By or ADC Noise Reduction (with ADC off) modes, this uses more power than deeply but less than idle.
 
     #include <SimpleSleep.h>
     SimpleSleep Sleep; 
