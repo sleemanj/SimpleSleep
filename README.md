@@ -41,7 +41,7 @@ An Arduino library for simple means of putting your Arduino into sleep modes in 
 
 * Download: http://sparks.gogo.co.nz/SimpleSleep.zip
 * Open the Arduino IDE (this library was tested in 1.8.5, older versions may work)
-* Select the menu item Sketch > Import Library > Add Library
+* Select the menu item Sketch > Include Library > Add Zip Library
 * Choose to install the SimpleSleep.zip file you downloaded
 * Now you can choose File > Examples > SimpleSleep > HelloWorld
 
